@@ -53,19 +53,19 @@ This demo is composed of the following segments:
 
 1.  Open Constants.m in the project navigator.
 
-	![Opening Constants.m ](images/constantsInProject.png?raw=true "Opening Constants")
+	![Opening Constants.m ](Images/constantsInProject.png?raw=true "Opening Constants")
 
 	_Opening Constants_
 
 1.  Replace <your-subdomain> with site URL you set up for the PHP URL Shortener.
 
-	![Constant URLs](images/yourSubdomainBefore.png?raw=true "Constant URLs")
+	![Constant URLs](Images/yourSubdomainBefore.png?raw=true "Constant URLs")
 
 	_Constant URLs_
 
 1.  Afterwards, the URls should point to your site.
 
-	![Constant URLs After Setting](images/yourSubdomainAfter.png?raw=true "Constant URLs After Setting")
+	![Constant URLs After Setting](Images/yourSubdomainAfter.png?raw=true "Constant URLs After Setting")
 
 	_Constant URLs After Setting_
 
@@ -78,7 +78,7 @@ This demo is composed of the following segments:
 
 1.  In XCode, go to the top right and ensure an iPhone simulator (e.g. iPhone 5.1 Simulator) is selected.
 
-	![Selecting the Simulator](images/xcodeBuildSettings.png?raw=true "Selecting the Simulator")
+	![Selecting the Simulator](Images/xcodeBuildSettings.png?raw=true "Selecting the Simulator")
 
 	_Selecting the Simulator_
 
@@ -86,7 +86,7 @@ This demo is composed of the following segments:
 
 1.  Ensure the top build status shows a success.
 
-	![Build Success](images/buildSucceeded.png?raw=true "Build Success")
+	![Build Success](Images/buildSucceeded.png?raw=true "Build Success")
 
 	_Build Success_
 
@@ -94,55 +94,55 @@ This demo is composed of the following segments:
 
 1.  The iPhone Simulator should start and after a moment, you should see the URL(s) you generated via the URL in the previous demo.
 
-	![URL List](images/urlList.png?raw=true "URL List")
+	![URL List](Images/urlList.png?raw=true "URL List")
 
 	_URL List_
 
 1.  Tap a shortened URL.
 
-	![Tapping a Shortened URL](images/tappingShortenedUrl.png?raw=true "Tapping Shortened URL")
+	![Tapping a Shortened URL](Images/tappingShortenedUrl.png?raw=true "Tapping Shortened URL")
 
 	_Tapping Shortened URL_
 
 1.  You should now be viewing the details for a URL.
 
-	![Viewing URL Details](images/urlDetails.png?raw=true "Viewing URL Details")
+	![Viewing URL Details](Images/urlDetails.png?raw=true "Viewing URL Details")
 
 	_Viewing URL Details_
 
 1.  Tap the "Go to URL" button.
 
-	![Tapping Go to URL](images/tappingGoToUrl.png?raw=true "Tapping Go to URL")
+	![Tapping Go to URL](Images/tappingGoToUrl.png?raw=true "Tapping Go to URL")
 
 	_Tapping Go to URL_
 
 1.  You should now be taken to the URL Shortener website for the URL you tapped.  This should just show the full URL for the one tapped.
 
-	![Viewing the URL from the Web](images/viewingShortenedUrl.png?raw=true "Viewing the URL from the Web")
+	![Viewing the URL from the Web](Images/viewingShortenedUrl.png?raw=true "Viewing the URL from the Web")
 
 	_Viewing the URL from the Web_
 
 1.  Return to the App (tap the home button twice and then select ShortifierDemo).
 
-	![Returning to the App](images/homeScreen.png?raw=true "Returning to the App")
+	![Returning to the App](Images/homeScreen.png?raw=true "Returning to the App")
 
 	_Returning to the App_
 
 1.  From the URL Details screen, tap the back button in the navigation bar.
 
-	![Going Back to the Table View](images/goBack.png?raw=true "Going Back to the Table View")
+	![Going Back to the Table View](Images/goBack.png?raw=true "Going Back to the Table View")
 
 	_Going Back to the Table View_
 
 1.  From the table view, tap the add button in the navigation bar.
 
-	![Tapping Add](images/tappingAdd.png?raw=true "Tapping Add")
+	![Tapping Add](Images/tappingAdd.png?raw=true "Tapping Add")
 
 	_Tapping Add_
 
 1.  Enter a shortened URL (e.g. "so") and full URL (e.g. "http://www.stackoverflow.com") into the details screen.
 
-	![Entering URL Details](images/enteringUrlDetails.png?raw=true "Entering URL Details")
+	![Entering URL Details](Images/enteringUrlDetails.png?raw=true "Entering URL Details")
 
 	_Entering URL Details_
 
@@ -150,13 +150,13 @@ This demo is composed of the following segments:
 
 1.  Tap the save button.
 
-	![Tapping Save](images/tappingSave.png?raw=true "Tapping Save")
+	![Tapping Save](Images/tappingSave.png?raw=true "Tapping Save")
 
 	_Tapping Save_
 
 1.  After tapping save, you will return to the table view and should see your new shortened URL.
 
-	![After Saving New URL](images/newUrlSlug.png?raw=true "After Saving New URL")
+	![After Saving New URL](Images/newUrlSlug.png?raw=true "After Saving New URL")
 
 	_After Saving New URL_
 
@@ -171,7 +171,7 @@ This demo is composed of the following segments:
 
 1.  Return to the Project Navigator by clicking the button in the top left.
 
-	![Returning to the Project Navigator](images/returnToProjectNavigator.png?raw=true "Returning to the Project Navigator")
+	![Returning to the Project Navigator](Images/returnToProjectNavigator.png?raw=true "Returning to the Project Navigator")
 
 	_Returning to the Project Navigator_
 
