@@ -1,5 +1,5 @@
 ﻿<a name="title" />
-# URL Shortener - iOS Client #
+# Connecting an iOS URL Shortener to a Backend in Windows Azure Websites #
 
 ---
 
