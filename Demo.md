@@ -146,7 +146,7 @@ This demo is composed of the following segments:
 
 	_Entering URL Details_
 
-**NOTE:** You MUST enter "http://" at the beginning of the URL.
+	> **NOTE:** You MUST enter "http://" at the beginning of the URL.
 
 1.  Tap the save button.
 
@@ -179,125 +179,125 @@ This demo is composed of the following segments:
 
 1.  Point out the following code in the ViewController class.
 
-````C#
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    //Hit the server for URL data
-    dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
-    dispatch_async(backgroundQueue, ^{
-        NSData* data = [NSData dataWithContentsOfURL: 
-                        [NSURL URLWithString: kGetAllUrl]];
-        [self performSelectorOnMainThread:@selector(fetchedData:) 
-                               withObject:data waitUntilDone:YES];
-    });
-}
-````
-> **Speaking Point**
->
->Here we're creating a background queue and dispatching it to run asynchronously in the background.  We're telling it to fetch the contents of the URL "kGetAllUrl" which was defined in the Constants.m file.  Finally, we're telling it to call the **fetchedData** method when it's complete.
+	````C#
+	(void)viewDidLoad
+	{
+		 [super viewDidLoad];
+		 //Hit the server for URL data
+		 dispatch_queue_t backgroundQueue = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0);
+		 dispatch_async(backgroundQueue, ^{
+			  NSData* data = [NSData dataWithContentsOfURL: 
+									[NSURL URLWithString: kGetAllUrl]];
+			  [self performSelectorOnMainThread:@selector(fetchedData:) 
+											 withObject:data waitUntilDone:YES];
+		 });
+	}
+	````
+	> **Speaking Point**
+	>
+	>Here we're creating a background queue and dispatching it to run asynchronously in the background.  We're telling it to fetch the contents of the URL "kGetAllUrl" which was defined in the Constants.m file.  Finally, we're telling it to call the **fetchedData** method when it's complete.
 
 1.  Continue down in the file and show the **fetchedData** method.
 
-````C#
-- (void)fetchedData:(NSData *)responseData {
-    //parse out the json data
-    NSError* error;
-    NSDictionary* json = [NSJSONSerialization 
-              JSONObjectWithData:responseData
-              
-              options:kNilOptions 
-              error:&error];
-    
-    NSString* status =[json objectForKey:@"Status"];
-    NSLog(@"status: %@", status);
-    _success = [status isEqualToString:@"SUCCESS"];
-    
-    //If we successfuly pulled the URLs, show them
-    if (_success) {
-        NSDictionary* urls = [json objectForKey:@"Urls"];
-        NSLog(@"urls: %@", urls);
-        AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-        appDelegate.urls = [urls mutableCopy];
-        
-        [self.tableView reloadData];
-    } else {
-        //Otherwise, show an error
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
-                    message:@"There was an error loading the URL data.  Please try again later." 
-                   delegate:self 
-          cancelButtonTitle:@"OK"
-          otherButtonTitles:nil];
-        [alert show];
-    }
-}    
-````
+	````C#
+	(void)fetchedData:(NSData *)responseData {
+		 //parse out the json data
+		 NSError* error;
+		 NSDictionary* json = [NSJSONSerialization 
+					  JSONObjectWithData:responseData
+					  
+					  options:kNilOptions 
+					  error:&error];
+		 
+		 NSString* status =[json objectForKey:@"Status"];
+		 NSLog(@"status: %@", status);
+		 _success = [status isEqualToString:@"SUCCESS"];
+		 
+		 //If we successfuly pulled the URLs, show them
+		 if (_success) {
+			  NSDictionary* urls = [json objectForKey:@"Urls"];
+			  NSLog(@"urls: %@", urls);
+			  AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+			  appDelegate.urls = [urls mutableCopy];
+			  
+			  [self.tableView reloadData];
+		 } else {
+			  //Otherwise, show an error
+			  UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" 
+							  message:@"There was an error loading the URL data.  Please try again later." 
+							 delegate:self 
+				 cancelButtonTitle:@"OK"
+				 otherButtonTitles:nil];
+			  [alert show];
+		 }
+	}    
+	````
 
-> **Speaking Point**
->
->Here, we're attempting to deserialize the data that came back back into a NSDictionary.  We then check the Status flag to see if polling the server was a success.  If it was, we put the URLs that came from the server into an NSDictionary and set that dictionary to a property on the AppDelegate.  We then tell the Table View to reload (it uses the object on the AppDelegate as it's datasource).  
+	> **Speaking Point**
+	>
+	>Here, we're attempting to deserialize the data that came back back into a NSDictionary.  We then check the Status flag to see if polling the server was a success.  If it was, we put the URLs that came from the server into an NSDictionary and set that dictionary to a property on the AppDelegate.  We then tell the Table View to reload (it uses the object on the AppDelegate as it's datasource).  
 
 1.  Scroll down in the class and look at the didAddUrlWith slug method.
 
-````C#
-- (void)urlDetailsViewController:(UrlDetailsViewController *)controller didAddUrlWithSlug:
-                                (NSString *)urlSlug andFullUrl:(NSString *)fullUrl {
-    
-    // Create the request.
-    NSMutableURLRequest *theRequest=[NSMutableURLRequest 
-                                     requestWithURL:
-                                     [NSURL URLWithString: kAddUrl]
-                                     cachePolicy:NSURLRequestUseProtocolCachePolicy
-                                     timeoutInterval:60.0];
-    [theRequest setHTTPMethod:@"POST"];
-    [theRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];    
-    //build an info object and convert to json
-    NSDictionary* jsonDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"my_key", @"key",
-                                    fullUrl, @"url",
-                                    urlSlug, @"url_slug",
-                                    nil];
-    //convert JSON object to data
-    NSError *error;
-    NSData* jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary 
-                                            options:NSJSONWritingPrettyPrinted error:&error];    
-    [theRequest setHTTPBody:jsonData];        
-    //prints out JSON
-    NSString *jsonText =  [[NSString alloc] initWithData:jsonData                                        
-                                                encoding:NSUTF8StringEncoding];
-    NSLog(@"JSON: %@", jsonText);
-    
-    // create the connection with the request and start loading the data
-    NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
-    if (theConnection) {
-        // Create the NSMutableData to hold the received data.
-        // receivedData is an instance variable declared elsewhere.
-        receivedData = [NSMutableData data];
-    } else {
-        // We should inform the user that the connection failed.
-    }
-    
-    AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
-    
-    //Add shortened URL locally
-    [appDelegate.urls setObject:fullUrl forKey:urlSlug];
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:appDelegate.urls.count -1 inSection:0];
-    [self.tableView insertRowsAtIndexPaths:
-                    [NSArray arrayWithObject:indexPath] 
-                    withRowAnimation:UITableViewRowAnimationAutomatic];
-    [self.navigationController popViewControllerAnimated:YES];
-    [self.navigationController dismissViewControllerAnimated:YES completion:nil];
-    [self.tableView reloadData];    
-}
-````
+	````C#
+	(void)urlDetailsViewController:(UrlDetailsViewController *)controller didAddUrlWithSlug:
+											  (NSString *)urlSlug andFullUrl:(NSString *)fullUrl {
+		 
+		 // Create the request.
+		 NSMutableURLRequest *theRequest=[NSMutableURLRequest 
+													 requestWithURL:
+													 [NSURL URLWithString: kAddUrl]
+													 cachePolicy:NSURLRequestUseProtocolCachePolicy
+													 timeoutInterval:60.0];
+		 [theRequest setHTTPMethod:@"POST"];
+		 [theRequest addValue:@"application/json" forHTTPHeaderField:@"Content-Type"];    
+		 //build an info object and convert to json
+		 NSDictionary* jsonDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+													@"my_key", @"key",
+													fullUrl, @"url",
+													urlSlug, @"url_slug",
+													nil];
+		 //convert JSON object to data
+		 NSError *error;
+		 NSData* jsonData = [NSJSONSerialization dataWithJSONObject:jsonDictionary 
+															  options:NSJSONWritingPrettyPrinted error:&error];    
+		 [theRequest setHTTPBody:jsonData];        
+		 //prints out JSON
+		 NSString *jsonText =  [[NSString alloc] initWithData:jsonData                                        
+																	encoding:NSUTF8StringEncoding];
+		 NSLog(@"JSON: %@", jsonText);
+		 
+		 // create the connection with the request and start loading the data
+		 NSURLConnection *theConnection=[[NSURLConnection alloc] initWithRequest:theRequest delegate:self];
+		 if (theConnection) {
+			  // Create the NSMutableData to hold the received data.
+			  // receivedData is an instance variable declared elsewhere.
+			  receivedData = [NSMutableData data];
+		 } else {
+			  // We should inform the user that the connection failed.
+		 }
+		 
+		 AppDelegate *appDelegate = (AppDelegate *)[[UIApplication sharedApplication] delegate];
+		 
+		 //Add shortened URL locally
+		 [appDelegate.urls setObject:fullUrl forKey:urlSlug];
+		 NSIndexPath *indexPath = [NSIndexPath indexPathForRow:appDelegate.urls.count -1 inSection:0];
+		 [self.tableView insertRowsAtIndexPaths:
+							  [NSArray arrayWithObject:indexPath] 
+							  withRowAnimation:UITableViewRowAnimationAutomatic];
+		 [self.navigationController popViewControllerAnimated:YES];
+		 [self.navigationController dismissViewControllerAnimated:YES completion:nil];
+		 [self.tableView reloadData];    
+	}
+	````
 
-> **Speaking Point**
->
->This is a delagate method that is called from the URL Details screen when the user adds a new URL.  
->
->In it, we generate a NSMutableURLRequest which we piont at kAddURL (from Constants.m).  We then bulid a NSDictionary which is filled with the details of the Shortened URL.  This dictionary is serialized to JSON and then passed via the NSURLConnection to the server.  
->Lastly, the new shortened URL is added to the appDelegate's dictionary of shortened URLs and the TableView is told to reload.
->The rest of the code is app functionality and doens't directly relate to communications with the server.
+	> **Speaking Point**
+	>
+	>This is a delagate method that is called from the URL Details screen when the user adds a new URL.  
+	>
+	>In it, we generate a NSMutableURLRequest which we piont at kAddURL (from Constants.m).  We then bulid a NSDictionary which is filled with the details of the Shortened URL.  This dictionary is serialized to JSON and then passed via the NSURLConnection to the server.  
+	>Lastly, the new shortened URL is added to the appDelegate's dictionary of shortened URLs and the TableView is told to reload.
+	>The rest of the code is app functionality and doens't directly relate to communications with the server.
 
 ---
 

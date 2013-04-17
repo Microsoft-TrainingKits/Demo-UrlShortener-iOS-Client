@@ -13,7 +13,7 @@
   <Document ConversionType="Html">Demo.md</Document>
   <Title>Connecting an iOS URL Shortener to a Backend in Windows Azure Websites</Title>
   <Version>1.0.1</Version>
-  <Source>.\Source</Source>
+  <Source></Source>
   <DependencyChecker></DependencyChecker>
   <CustomProperties>
     <Property Name="GitHubRepository" Value="https://github.com/WindowsAzure-TrainingKit/Demo-UrlShortener-iOS-Client" />
